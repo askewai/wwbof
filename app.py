@@ -23,16 +23,13 @@ handler = WebhookHandler(
            default=os.environ.get('LINE_CHANNEL_SECRET'))
 )
 
-
 @app.route("/callback", methods=['POST'])
 def callback():
     signature = request.headers['X-Line-Signature']
 
-
     # get request body as text
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
-
 
     # handle webhook body
     try:
@@ -50,7 +47,6 @@ def handle_text_message(event):
         event.reply_token,
         TextSendMessage(text=event.message.text)
     )
-
 
 
 if __name__ == "__main__":
