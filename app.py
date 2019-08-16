@@ -1,15 +1,9 @@
 import os
 from decouple import config
-from flask import (
-    Flask, request, abort
-)
-from linebot import (
-    LineBotApi, WebhookHandler
-)
+from flask import (Flask, request, abort)
+from linebot import (LineBotApi, WebhookHandler)
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
-)
+from linebot.models import (MessageEvent, TextMessage, TextSendMessage,)
 
 app = Flask(__name__)
 # get LINE_CHANNEL_ACCESS_TOKEN from your environment variable
