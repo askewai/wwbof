@@ -56,7 +56,7 @@ def handle_text_message(event):
             userid = profile.user_id
             print(userid)
             print('Start sending to ' + profile.display_name)
-            line_bot_api.push_message(userid, )
+            line_bot_api.push_message(userid, msg_join)
 
 
 
