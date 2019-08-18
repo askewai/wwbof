@@ -51,11 +51,9 @@ def handle_text_message(event):
 
     if incoming_msg == '/userid':
         if isinstance(event.source, SourceUser):
-            res_profile = line_bot_api.get_profile(event.source.user_id)
-            # json_profile = res_profile.json()
-            userid = res_profile['userId']
+            profile = line_bot_api.get_profile(event.source.user_id)
+            userid = profile.user_id
             print(userid)
-    
 
 
 
