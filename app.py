@@ -35,7 +35,7 @@ def handle_text_message(event):
     line_bot_api.reply_message(event.reply_token, TextSendMessage('Yo whatsup'))
 
     print('Testing..')
-    res = requests.get('https://website.com/id', headers={'Authorization': access_token})
+    res = requests.post('https://website.com/id', headers={'Authorization': access_token})
     raw_json = res.json()
     print(res_json)
 
