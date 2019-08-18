@@ -32,14 +32,16 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_text_message(event):
     incoming_msg = event.message.text
+    
     print('Income message: ' + incoming_msg)
     line_bot_api.reply_message(event.reply_token, TextSendMessage('Yo whatsup'))
 
     print('Testing..')
 
     if incoming_msg == '/userid':
-        profile = line_bot_api.get_profile(event.user_id)
-    print(profile)
+        if isinstance(event.source, SourceUser):
+            userid = line_bot_api.get_profile(event.source.user_id)
+            print(userid)
 
 
 
