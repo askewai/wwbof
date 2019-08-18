@@ -11,7 +11,8 @@ app = Flask(__name__)
 # get LINE_CHANNEL_ACCESS_TOKEN from your environment variable
 line_bot_api = LineBotApi(config("LINE_CHANNEL_ACCESS_TOKEN", default=os.environ.get('LINE_ACCESS_TOKEN')))
 # get LINE_CHANNEL_SECRET from your environment variable
-handler = WebhookHandler(config("LINE_CHANNEL_SECRET", default=os.environ.get('LINE_CHANNEL_SECRET')))
+handler = WebhookHandler(config("LINE_CHANNEL_SECRET", default=os.environ.get('LINE_CHANNEL_SECRET')))\
+access_token = config("LINE_CHANNEL_ACCESS_TOKEN")
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -34,9 +35,9 @@ def handle_text_message(event):
     line_bot_api.reply_message(event.reply_token, TextSendMessage('Yo whatsup'))
 
     print('Testing..')
-    x = requests.get('https://api.line.me/v2/profile')
-    raw_json = x.json()
-    print(raw_json)
+    res = requests.get('https://website.com/id', headers={'Authorization': access_token})
+    raw_json = res.json()
+    print(res_json)
 
 
 
