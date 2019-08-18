@@ -3,7 +3,17 @@ from decouple import config
 from flask import (Flask, request, abort)
 from linebot import (LineBotApi, WebhookHandler)
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import (MessageEvent, TextMessage, TextSendMessage)
+from linebot.models import (
+    MessageEvent, 
+    TextMessage, 
+    TextSendMessage,
+    SourceUser,
+    SourceGroup,
+    SourceRoom,
+    MessageAction,
+    LeaveEvent,
+    JoinEvent
+)
 import requests
 
 
@@ -32,7 +42,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_text_message(event):
     incoming_msg = event.message.text
-    
+
     print('Income message: ' + incoming_msg)
     line_bot_api.reply_message(event.reply_token, TextSendMessage('Yo whatsup'))
 
