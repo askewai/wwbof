@@ -53,6 +53,7 @@ def handle_text_message(event):
     if incoming_msg == '/userid':
         if isinstance(event.source, SourceGroup):
             profile = line_bot_api.get_profile(event.source.user_id)
+            print('Profile: ' + profile)
             userid = profile.user_id
             print(userid)
             print('Start sending to ' + profile.display_name)
