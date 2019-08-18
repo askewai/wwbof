@@ -31,13 +31,16 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_text_message(event):
-    print('Income message: ' + event.message.text)
+    incoming_msg = event.message.text
+    print('Income message: ' + incoming_msg)
     line_bot_api.reply_message(event.reply_token, TextSendMessage('Yo whatsup'))
 
     print('Testing..')
-    res = requests.post('https://website.com/id', headers={'Authorization': access_token})
-    raw_json = res.json()
-    print(res_json)
+
+    if incoming_msg == '/userid':
+        profile = line_bot_api.get_profile(event.user_id)
+    print(profile)
+
 
 
 
