@@ -16,6 +16,7 @@ from linebot.models import (
     JoinEvent
 )
 import requests
+from game import main
 
 
 app = Flask(__name__)
@@ -40,22 +41,16 @@ def callback():
         abort(400)
     return 'OK'
 
+
 @handler.add(MessageEvent, message=TextMessage)
 def handle_text_message(event):
-    incoming_msg = event.message.text
+    incoming_msg = event.message.text           
 
     print('Income message: ' + incoming_msg)
     if incoming_msg == 'bales dong':
         line_bot_api.reply_message(event.reply_token, TextSendMessage('knp ey?'))
-
-    msg_join = 'Congratulations!! You are joining the Werewolf Game'
-    if incoming_msg == '/join':
-        if isinstance(event.source, SourceGroup):
-            profile = line_bot_api.get_profile(event.source.user_id)
-            userid = profile.user_id
-            print('User ID: ' + userid)
-            print('Start sending to ' + profile.display_name)
-            line_bot_api.push_message(userid, TextSendMessage(msg_join))
+                
+    main()
 
 
 if __name__ == "__main__":
