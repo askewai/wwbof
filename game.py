@@ -47,9 +47,9 @@ def main(): # 4 - 6 players
 
                 
                 if incoming_msg == '/startgame':
-                    
+                    print('start game di click')
             elif len(userid) >= 7 and len(userid) <= 12:
-
+                print('antara 7-12 players')
 
 
 
