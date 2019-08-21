@@ -50,7 +50,7 @@ def handle_text_message(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage('knp ey?'))
 
     # Call main game function         
-    game.main()
+    game.main(incoming_msg)
 
 
 if __name__ == "__main__":

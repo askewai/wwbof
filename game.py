@@ -19,7 +19,7 @@ import requests
 import time
 import re
 
-def main(): # 4 - 6 players
+def main(incoming_msg): # 4 - 6 players
     # DEFINE VARIABLES
     msg_join = 'Congratulations!! You are joining the Werewolf Game'
     str_curr = 'Current players: \n'
