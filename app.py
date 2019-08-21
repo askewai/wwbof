@@ -16,8 +16,7 @@ from linebot.models import (
     JoinEvent
 )
 import requests
-from game import main
-
+import game
 
 app = Flask(__name__)
 # get LINE_CHANNEL_ACCESS_TOKEN from your environment variable
@@ -49,8 +48,9 @@ def handle_text_message(event):
     print('Income message: ' + incoming_msg)
     if incoming_msg == 'bales dong':
         line_bot_api.reply_message(event.reply_token, TextSendMessage('knp ey?'))
-                
-    main()
+
+    # Call main game function         
+    game.main()
 
 
 if __name__ == "__main__":
