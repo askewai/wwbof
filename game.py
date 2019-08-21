@@ -37,8 +37,8 @@ def main(event, line_bot_api, handler, incoming_msg):
                 print('Add user ID: ' + profile.user_id)
                 line_bot_api.push_message(profile.user_id, TextSendMessage(msg_join))
                 for y in range(len(userid)):
-                    player.append(str(y+1) + '. ' + profile.display_name)
-                players = '\n'.join(player)
+                    players_arr.append(str(y+1) + '. ' + profile.display_name)
+                players = '\n'.join(players_arr)
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(str_curr + players))
 
             for x in range(len(userid)): 
