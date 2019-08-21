@@ -23,7 +23,9 @@ import re
 msg_join = 'Congratulations!! You are joining the Werewolf Game'
 str_curr = 'Current players: \n'
 players_arr = []
+displayname = []
 userid = []
+
 
 #######################################################################
 
@@ -32,26 +34,26 @@ def main(event, line_bot_api, handler, incoming_msg):
         if isinstance(event.source, SourceGroup): # If eventnya dari group
             profile = line_bot_api.get_profile(event.source.user_id)
 
-            if len(userid) == 0:
+            if len(userid) == 0: # If players is still null
                 userid.append(profile.user_id) 
+                displayname.append(profile.display_name)
                 print('Add user ID: ' + profile.user_id)
                 line_bot_api.push_message(profile.user_id, TextSendMessage(msg_join))
-                # for y in range(len(userid)):
-                #     players_arr.append(str(y+1) + '. ' + profile.display_name)
-                # players = '\n'.join(players_arr)
-                # line_bot_api.reply_message(event.reply_token, TextSendMessage(str_curr + players))
 
-            for x in range(len(userid)): 
-                if profile.user_id != userid[x]: # If ada player baru
-                    userid.append(profile.user_id) 
-                    print('Add user ID: ' + profile.user_id)
-                    line_bot_api.push_message(profile.user_id, TextSendMessage(msg_join))
-        
-                else: # If not a new player
-                    print('Not a new player')
+            elif len(userid) > 0: # If players more than 0
+                for x in range(len(userid)): 
+                    if profile.user_id != userid[x]: # If ada player baru
+                        userid.append(profile.user_id) 
+                        displayname.append(profile.display_name)
+                        print('Add user ID: ' + profile.user_id)
+                        line_bot_api.push_message(profile.user_id, TextSendMessage(msg_join))
+            
+                    else: # If not a new player
+                        print('Not a new player')
 
+            # Announce who are the players
             for y in range(len(userid)):
-                players_arr.append(str(y+1) + '. ' + profile.display_name)
+                players_arr.append(str(y+1) + '. ' + displayname[y])
             players = '\n'.join(players_arr)
             line_bot_api.reply_message(event.reply_token, TextSendMessage(str_curr + players))
             print('PLAYERS: ' + str(players_arr))
