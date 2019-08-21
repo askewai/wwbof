@@ -23,7 +23,6 @@ app = Flask(__name__)
 line_bot_api = LineBotApi(config("LINE_CHANNEL_ACCESS_TOKEN", default=os.environ.get('LINE_ACCESS_TOKEN')))
 # get LINE_CHANNEL_SECRET from your environment variable
 handler = WebhookHandler(config("LINE_CHANNEL_SECRET", default=os.environ.get('LINE_CHANNEL_SECRET')))
-access_token = config("LINE_CHANNEL_ACCESS_TOKEN")
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -50,7 +49,7 @@ def handle_text_message(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage('knp ey?'))
 
     # Call main game function         
-    game.main(incoming_msg)
+    game.main(event, line_bot_api, handler, incoming_msg)
 
 
 if __name__ == "__main__":
