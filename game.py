@@ -65,6 +65,6 @@ def main(): # 4 - 6 players
 
 
 
-    if incoming_msg == '/quit':
+    # if incoming_msg == '/quit':
 
                 
