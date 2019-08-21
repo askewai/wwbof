@@ -29,8 +29,7 @@ userid = []
 
 #######################################################################
 
-def main(event, line_bot_api, handler, incoming_msg): 
-    num = 1
+def main(event, line_bot_api, handler, incoming_msg, num): 
     if incoming_msg == '/join': # If user type '/join'
         if isinstance(event.source, SourceGroup): # If eventnya dari group
             profile = line_bot_api.get_profile(event.source.user_id)
