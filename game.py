@@ -49,6 +49,7 @@ def main(event, line_bot_api, handler, incoming_msg):
 
             elif len(userid) > 0: # If players more than 0
                 for x in range(len(userid)): 
+                    print('Checking if he/she is a new user')
                     if profile.user_id != userid[x]: # If ada player baru
                         userid.append(profile.user_id) 
                         displayname.append(profile.display_name)
@@ -57,6 +58,7 @@ def main(event, line_bot_api, handler, incoming_msg):
 
                         # Announce who are the players
                         for y in range(len(userid)):
+                            print(y)
                             players_arr.append(str(y+1) + '. ' + displayname[y])
                         players = '\n'.join(players_arr)
                         line_bot_api.reply_message(event.reply_token, TextSendMessage(str_curr + players))
