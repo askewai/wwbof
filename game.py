@@ -49,9 +49,9 @@ def main(event, line_bot_api, handler, incoming_msg):
         if len(userid) >= 4 and len(userid) <= 6: # If total players antara 4-6
 
         elif len(userid) >= 7 and len(userid) <= 12: # If total players antara 7-12
-            print('antara 7-12 players')
+            print('player antara 7-12 players')
 
-        elif len(userid) < 4:   # If players kurang dari 4
+        elif len(userid) < 4: # If players kurang dari 4
             line_bot_api.reply_message(event.reply_token, TextSendMessage('Sorry, you are too lonely (min 4 ppl)'))
 
         elif len(userid) > 12:  # If players lebih dari 12
