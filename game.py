@@ -36,21 +36,24 @@ def main(event, line_bot_api, handler, incoming_msg):
                 userid.append(profile.user_id) 
                 print('Add user ID: ' + profile.user_id)
                 line_bot_api.push_message(profile.user_id, TextSendMessage(msg_join))
-                for y in range(len(userid)):
-                    players_arr.append(str(y+1) + '. ' + profile.display_name)
-                players = '\n'.join(players_arr)
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(str_curr + players))
+                # for y in range(len(userid)):
+                #     players_arr.append(str(y+1) + '. ' + profile.display_name)
+                # players = '\n'.join(players_arr)
+                # line_bot_api.reply_message(event.reply_token, TextSendMessage(str_curr + players))
 
             for x in range(len(userid)): 
                 if profile.user_id != userid[x]: # If ada player baru
                     userid.append(profile.user_id) 
                     print('Add user ID: ' + profile.user_id)
                     line_bot_api.push_message(profile.user_id, TextSendMessage(msg_join))
-                    for y in range(len(userid)):
-                        players_arr.append(str(y+1) + '. ' + profile.display_name)
-                    players = '\n'.join(players_arr)
-                    line_bot_api.reply_message(event.reply_token, TextSendMessage(str_curr + players))
+        
+                else: # If not a new player
+                    print('Not a new player')
 
+            for y in range(len(userid)):
+                players_arr.append(str(y+1) + '. ' + profile.display_name)
+            players = '\n'.join(players_arr)
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(str_curr + players))
             print('PLAYERS: ' + str(players_arr))
 
     
