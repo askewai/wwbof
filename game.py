@@ -22,11 +22,9 @@ import re
 # DEFINE GLOBAL VARIABLES
 msg_join = 'Congratulations!! You are joining the Werewolf Game'
 str_curr = 'Current players: \n'
-num = 1
 players_arr = []
 displayname = []
 userid = []
-
 
 #######################################################################
 
@@ -44,6 +42,7 @@ def main(event, line_bot_api, handler, incoming_msg):
                 line_bot_api.push_message(profile.user_id, TextSendMessage(msg_join))
                 
                 # Announce who are the players
+                num = 1
                 players_arr.append(str(num) + '. ' + profile.display_name)
                 players = '\n'.join(players_arr)
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(str_curr + players))
