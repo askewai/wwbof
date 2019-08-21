@@ -47,7 +47,7 @@ def main(event, line_bot_api, handler, incoming_msg):
     
     if incoming_msg == '/startgame':
         if len(userid) >= 4 and len(userid) <= 6: # If total players antara 4-6
-
+            print('player antara 4-6 players')
         elif len(userid) >= 7 and len(userid) <= 12: # If total players antara 7-12
             print('player antara 7-12 players')
 
