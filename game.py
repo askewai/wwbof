@@ -34,7 +34,7 @@ def main(event, line_bot_api, handler, incoming_msg):
 
             if len(userid) == 0:
                 userid.append(profile.user_id) 
-                print('Add user ID: ' + userid)
+                print('Add user ID: ' + profile.user_id)
                 line_bot_api.push_message(userid, TextSendMessage(msg_join))
                 for y in range(len(userid)):
                     player.append(str(y+1) + '. ' + profile.display_name)
@@ -44,13 +44,13 @@ def main(event, line_bot_api, handler, incoming_msg):
             for x in range(len(userid)): 
                 if profile.user_id != userid[x]: # If ada player baru
                     userid.append(profile.user_id) 
-                    print('Add user ID: ' + userid)
+                    print('Add user ID: ' + profile.user_id)
                     line_bot_api.push_message(userid, TextSendMessage(msg_join))
                     for y in range(len(userid)):
                         player.append(str(y+1) + '. ' + profile.display_name)
                     players = '\n'.join(player)
                     line_bot_api.reply_message(event.reply_token, TextSendMessage(str_curr + players))
-                    
+
             print('PLAYERS: ' + str(userid))
 
     
