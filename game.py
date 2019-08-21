@@ -25,7 +25,7 @@ str_curr = 'Current players: \n'
 players_arr = []
 displayname = []
 userid = []
-num = 1
+global num = 1
 
 #######################################################################
 
