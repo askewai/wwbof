@@ -42,8 +42,6 @@ def main(event, line_bot_api, handler, incoming_msg):
             if isinstance(event.source, SourceGroup): # If eventnya dari group
                 profile = line_bot_api.get_profile(event.source.user_id)
 
-                print('Num of userid: ' + str(len(userid)))
-
                 if len(userid) == 0: # If players is still null
                     userid.append(profile.user_id) 
                     displayname.append(profile.display_name)
@@ -90,7 +88,7 @@ def main(event, line_bot_api, handler, incoming_msg):
         else:
             line_bot_api.reply_message(event.reply_token, TextSendMessage('Werewolf is under maintenance :)'))
 
-    print('State: ' + str(state))
+    print('STATE: ' + str(state))
 
     # if incoming_msg == '/leave':
     #     line_bot_api.reply_message(event.reply_token, TextSendMessage('See you next game, '))
