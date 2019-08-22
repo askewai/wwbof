@@ -25,7 +25,7 @@ str_curr = 'Current players: \n'
 players_arr = []
 displayname = []
 userid = []
-state = config('state')
+state = '0'
 
 '''
 0. Join state
@@ -36,7 +36,7 @@ state = config('state')
 ##############################################################################
 
 def main(event, line_bot_api, handler, incoming_msg): 
-    if state == 0:
+    if state == '0':
         if incoming_msg == '/join': # If user type '/join'
             if isinstance(event.source, SourceGroup): # If eventnya dari group
                 profile = line_bot_api.get_profile(event.source.user_id)
@@ -75,11 +75,11 @@ def main(event, line_bot_api, handler, incoming_msg):
 
     if incoming_msg == '/startgame' and state == 0: # Kasih role ke masing" orang, randomize depends on the num of players
         if len(userid) >= 4 and len(userid) <= 6: # If total players antara 4-6
-            state = 1
+            state = '1'
             print('Game has started | 4-6 players')
             line_bot_api.reply_message(event.reply_token, TextSendMessage('The game has started!! \nAuuuuuuuwwww!! Who is the werewolf here? Let\'s find out!'))
         elif len(userid) >= 7 and len(userid) <= 12: # If total players antara 7-12
-            state = 1
+            state = '1'
             print('Game has started | 7-12 players')
             line_bot_api.reply_message(event.reply_token, TextSendMessage('The game has started!! \nAuuuuuuuwwww!! Who are the werewolves here? Let\'s find out!'))
         elif len(userid) < 4: # If players kurang dari 4
