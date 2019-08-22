@@ -27,7 +27,7 @@ displayname = []
 userid = []
 same = False
 
-########################################kek###############################
+#######################################################################
 
 def main(event, line_bot_api, handler, incoming_msg, num): 
     if incoming_msg == '/join': # If user type '/join'
@@ -49,10 +49,6 @@ def main(event, line_bot_api, handler, incoming_msg, num):
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(str_curr + players))
 
             elif len(userid) > 0: # If players more than 0
-                # for x in range(len(userid)): # 0 johandy 1 eric 2 kevin 3 kevin
-                #     # Checking if he/she is a new user
-                #     if profile.user_id != userid[]: # If ada player baru
-                        
                 if profile.user_id not in userid:
                     userid.append(profile.user_id)  
                     displayname.append(profile.display_name)
@@ -60,18 +56,13 @@ def main(event, line_bot_api, handler, incoming_msg, num):
                     line_bot_api.push_message(profile.user_id, TextSendMessage(msg_join))
 
                     # Announce who are the players
-                    num = num + 1
-                    players_arr.append(str(num) + '. ' + profile.display_name)
+                    # num = num + 1
+                    players_arr.append(str(len(userid)) + '. ' + profile.display_name)
                     print(players_arr)
                     players = '\n'.join(players_arr)
                     line_bot_api.reply_message(event.reply_token, TextSendMessage(str_curr + players))
-                    
-                # elif profile.user_id == userid[x]: # If not a new player
-                #     print('Not a new player')
-                #     break
                 else: 
                     print('Not a new player')
-
 
             print('PLAYERS: ' + str(players_arr))
 
