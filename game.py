@@ -26,7 +26,7 @@ players_arr = []
 displayname = []
 userid = []
 
-#######################################################################
+########################################kek###############################
 
 def main(event, line_bot_api, handler, incoming_msg, num): 
     if incoming_msg == '/join': # If user type '/join'
@@ -56,13 +56,16 @@ def main(event, line_bot_api, handler, incoming_msg, num):
                         line_bot_api.push_message(profile.user_id, TextSendMessage(msg_join))
 
                         # Announce who are the players
-                        num = num + 1
-                        players_arr.append(str(num) + '. ' + profile.display_name)
+                        # num = num + 1
+                        players_arr.append(str(x+1) + '. ' + profile.display_name)
                         players = '\n'.join(players_arr)
                         line_bot_api.reply_message(event.reply_token, TextSendMessage(str_curr + players))
                         
-                    else: # If not a new player
+                    elif profile.user_id == userid[x]:
                         print('Not a new player')
+                        break
+                    else: # If not a new player
+                        print('?????')
 
 
             print('PLAYERS: ' + str(players_arr))
