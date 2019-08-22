@@ -25,14 +25,15 @@ str_curr = 'Current players: \n'
 players_arr = []
 displayname = []
 userid = []
-state = 0
+state = config('state')
+
 '''
 0. Join state
 1. startgame stat
 2. endgame
 '''
 
-#######################################################kek#######################
+##############################################################################
 
 def main(event, line_bot_api, handler, incoming_msg): 
     if state == 0:
