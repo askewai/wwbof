@@ -49,7 +49,7 @@ def handle_text_message(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage('knp ey?'))
 
     # Call main game function         
-    game.main(event, line_bot_api, handler, incoming_msg, num)
+    game.main(event, line_bot_api, handler, incoming_msg)
 
 
 if __name__ == "__main__":

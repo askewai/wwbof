@@ -25,11 +25,10 @@ str_curr = 'Current players: \n'
 players_arr = []
 displayname = []
 userid = []
-same = False
 
 #######################################################################
 
-def main(event, line_bot_api, handler, incoming_msg, num): 
+def main(event, line_bot_api, handler, incoming_msg): 
     if incoming_msg == '/join': # If user type '/join'
         if isinstance(event.source, SourceGroup): # If eventnya dari group
             profile = line_bot_api.get_profile(event.source.user_id)
@@ -43,20 +42,19 @@ def main(event, line_bot_api, handler, incoming_msg, num):
                 line_bot_api.push_message(profile.user_id, TextSendMessage(msg_join))
                 
                 # Announce who are the players
-                players_arr.append(str(num) + '. ' + profile.display_name)
+                players_arr.append(str(len(userid)) + '. ' + profile.display_name)
                 print(players_arr)
                 players = '\n'.join(players_arr)
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(str_curr + players))
 
             elif len(userid) > 0: # If players more than 0
                 if profile.user_id not in userid:
-                    userid.append(profile.user_id)  
+                    userid.append(profile.user_id) 
                     displayname.append(profile.display_name)
                     print('Add user ID: ' + profile.user_id)    
                     line_bot_api.push_message(profile.user_id, TextSendMessage(msg_join))
 
                     # Announce who are the players
-                    # num = num + 1
                     players_arr.append(str(len(userid)) + '. ' + profile.display_name)
                     print(players_arr)
                     players = '\n'.join(players_arr)
