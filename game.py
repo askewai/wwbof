@@ -90,7 +90,7 @@ def main(event, line_bot_api, handler, incoming_msg):
         else:
             line_bot_api.reply_message(event.reply_token, TextSendMessage('Werewolf is under maintenance :)'))
 
-    print('State: ' + state)
+    print('State: ' + str(state))
 
     # if incoming_msg == '/leave':
     #     line_bot_api.reply_message(event.reply_token, TextSendMessage('See you next game, '))
