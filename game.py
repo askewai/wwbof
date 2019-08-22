@@ -26,7 +26,6 @@ players_arr = []
 displayname = []
 userid = []
 
-
 #######################################################################
 
 def main(event, line_bot_api, handler, incoming_msg, num): 
@@ -51,9 +50,9 @@ def main(event, line_bot_api, handler, incoming_msg, num):
                 for x in range(len(userid)): 
                     print('Checking if he/she is a new user')
                     if profile.user_id != userid[x]: # If ada player baru
-                        userid.append(profile.user_id) 
+                        userid.append(profile.user_id)  
                         displayname.append(profile.display_name)
-                        print('Add user ID: ' + profile.user_id)
+                        print('Add user ID: ' + profile.user_id)    
                         line_bot_api.push_message(profile.user_id, TextSendMessage(msg_join))
 
                         # Announce who are the players
