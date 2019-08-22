@@ -53,8 +53,6 @@ def main(event, line_bot_api, handler, incoming_msg, num):
                 #     # Checking if he/she is a new user
                 #     if profile.user_id != userid[]: # If ada player baru
                         
-                        
-
                 if profile.user_id not in userid:
                     userid.append(profile.user_id)  
                     displayname.append(profile.display_name)
@@ -68,11 +66,11 @@ def main(event, line_bot_api, handler, incoming_msg, num):
                     players = '\n'.join(players_arr)
                     line_bot_api.reply_message(event.reply_token, TextSendMessage(str_curr + players))
                     
-                elif profile.user_id == userid[x]: # If not a new player
-                    print('Not a new player')
-                    break
+                # elif profile.user_id == userid[x]: # If not a new player
+                #     print('Not a new player')
+                #     break
                 else: 
-                    print('?????')
+                    print('Not a new player')
 
 
             print('PLAYERS: ' + str(players_arr))
