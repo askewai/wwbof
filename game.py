@@ -108,7 +108,7 @@ def main(event, line_bot_api, handler, incoming_msg):
                     if data['player'][x]['role'] == 'Werewolf':
                         role_desc = 'You can go WOLF TRIGGER and attack a player at night'
                     elif data['player'][x]['role'] == 'Seer':
-                        role_desc = 'You can go STALKER TRIGGER at night to see his/her role'
+                        role_desc = 'You can go STALKER TRIGGER at night to see a player\'s role'
                     elif data['player'][x]['role'] == 'Villager':
                         role_desc = 'You are just DEADWEIGHT'
                     else:
@@ -121,9 +121,7 @@ def main(event, line_bot_api, handler, incoming_msg):
                 print('Role: ' + str(role))
                 print('DATA: ' + str(data))
                 # print(data['player'][0]['displayname'])
-                # print(data['player'][3]['userid'])
-
-                
+                # print(data['player'][3]['userid'])                
 
 
             
