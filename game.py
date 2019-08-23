@@ -95,15 +95,33 @@ def main(event, line_bot_api, handler, incoming_msg):
                     role.append('Villager')
                 random.shuffle(role) 
 
+'''
+desc['werewolf'] = 'you can kill ppl at night'
+desc['seer'] = 'you can peek ppl at night'
+desc['villager'] = 'you a pussy'
+'''
+
+
                 # Assign to dictionaries
                 for x in range(len(userid)): # 0 - 3
                     each_data = {
                         "userid": userid[x],
                         "displayname": displayname[x],
-                        "role": role[x]
+                        "role": role[x],
                     }
                     data['player'].append(each_data)
-                    line_bot_api.push_message(data['player'][x]['userid'], TextSendMessage('Your role is:' + data['player'][x]['role']))
+
+                    # Define description for each role
+                    if data['player'][x]['role'] == 'Werewolf':
+                        role_desc = 'You can go WOLF TRIGGER and attack a player at night'
+                    elif data['player'][x]['role'] == 'Seer':
+                        role_desc = 'You can go STALKER TRIGGER at night to see his/her role'
+                    elif data['player'][x]['role'] == 'Villager':
+                        role_desc = 'You are just DEADWEIGHT'
+                    else:
+                        print('hmmm, ada error tuh..')
+
+                    line_bot_api.push_message(data['player'][x]['userid'], TextSendMessage('Your role is: ' + data['player'][x]['role'] + '\n' + role_desc))
 
                 print('UserID: ' + str(userid))
                 print('Display name: ' + str(displayname))
