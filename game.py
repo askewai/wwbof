@@ -86,8 +86,6 @@ def main(event, line_bot_api, handler, incoming_msg):
         
             #################################################################### 
 
-            userid = ['1124','2322', '1525', '2324']
-            displayname = ['Kevkur', 'Kevsan', 'anomalick', 'johandick']
             role = ['Werewolf', 'Seer']
             for y in range(len(userid)-2):
                 role.append('Villager')
