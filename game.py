@@ -95,13 +95,6 @@ def main(event, line_bot_api, handler, incoming_msg):
                     role.append('Villager')
                 random.shuffle(role) 
 
-'''
-desc['werewolf'] = 'you can kill ppl at night'
-desc['seer'] = 'you can peek ppl at night'
-desc['villager'] = 'you a pussy'
-'''
-
-
                 # Assign to dictionaries
                 for x in range(len(userid)): # 0 - 3
                     each_data = {

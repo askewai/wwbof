@@ -3,7 +3,7 @@ import random
 userid = ['2312', '2141', '5252', '4910']
 displayname = ['babelac', 'buabelac', 'liana', 'tan']
 # WW - Seer - Villager
-desc = ['You can eat any villagers']
+desc = ['You can eat any villagers', 'You can see the werewolf', '']
 data = {'player': []}
 
 # Randomize roles for 4-6 players
