@@ -18,6 +18,7 @@ from linebot.models import (
 import requests
 import time
 import re
+import random
 
 # DEFINE GLOBAL VARIABLES
 msg_join = 'Congratulations!! You are joining the Werewolf Game'
@@ -33,7 +34,7 @@ state = 0
 2. endgame
 '''
 
-##############################################################################
+##################################################################################
 
 def main(event, line_bot_api, handler, incoming_msg): 
     global state
@@ -70,13 +71,50 @@ def main(event, line_bot_api, handler, incoming_msg):
                         print('Not a new player')
                         line_bot_api.reply_message(event.reply_token, TextSendMessage('Sorry, you are already in the game'))
 
-                print('PLAYERS: ' + str(players_arr))
-
+                print('PLAYERS: ' + str(players_arr))       
+'''
+1 Werewolf
+1 Seer
+X Villager
+'''
     if incoming_msg == '/startgame' and state == 0: # Kasih role ke masing" orang, randomize depends on the num of players
+        
         if len(userid) >= 4 and len(userid) <= 6: # If total players antara 4-6
             state = 1
             print('Game has started | 4-6 players')
             line_bot_api.reply_message(event.reply_token, TextSendMessage('The game has started!! \nAuuuuuuuwwww!! Who is the werewolf here? Let\'s find out!'))
+        
+            #################################################################### 
+
+            userid = ['1124','2322', '1525', '2324']
+            displayname = ['Kevkur', 'Kevsan', 'anomalick', 'johandick']
+            role = ['Werewolf', 'Seer']
+            for y in range(len(userid)-2):
+                role.append('Villager')
+            random.shuffle(role) # Randomize the roles
+
+            data = {
+                'player': [
+                ]
+            }
+
+            # Assign to dictionaries
+            for x in range(len(userid)): # 0 - 3
+                each_data = {
+                    "userid": userid[x],
+                    "displayname": displayname[x],
+                    "role": role[x]
+                }
+                data['player'].append(each_data)
+            
+            print('UserID: ' + str(userid))
+            print('Display name: ' + str(displayname))
+            print('Role: ' + str(role))
+            print('DATA: ' + str(data))
+            print(data['player'][0]['displayname'])
+            print(data['player'][3]['userid']
+
+        
         elif len(userid) >= 7 and len(userid) <= 12: # If total players antara 7-12
             state = 1
             print('Game has started | 7-12 players')
