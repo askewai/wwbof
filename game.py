@@ -84,7 +84,7 @@ def main(event, line_bot_api, handler, incoming_msg):
                 print('Game has started | 4-6 players')
                 line_bot_api.reply_message(event.reply_token, TextSendMessage('The game has started!! \nAuuuuuuuwwww!! Who is the werewolf here? Let\'s find out!'))
             
-                #################################################################### 
+                #################################################################### Giving the roles
 
                 # Define data
                 data = {'player': []}
@@ -123,8 +123,12 @@ def main(event, line_bot_api, handler, incoming_msg):
                 # print(data['player'][0]['displayname'])
                 # print(data['player'][3]['userid'])                
 
+                #################################################################### Day & Night cycle begin
 
-            
+                time.sleep(5)
+                line_bot_api.reply_message(event.reply_token, TextSendMessage('Pagi petang telah tiba, para villagers bangun untuk menghirup udara segar. Hmm, namun apakah betul mereka benar-benar safe?'))
+                
+
             elif len(userid) >= 7 and len(userid) <= 12: # If total players antara 7-12
                 state = 1
                 print('Game has started | 7-12 players')

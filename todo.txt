@@ -1,3 +1,2 @@
 Todo:
-1. Werewolf send roles via PM
-2. Add feature /startgame
+1. 
