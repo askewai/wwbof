@@ -73,7 +73,7 @@ def main(event, line_bot_api, handler, incoming_msg):
 
                 print('PLAYERS: ' + str(players_arr))       
 
-    ##################kek#######################################
+    #########################################################
     ######################################################### STATE 1
     #########################################################
     
@@ -112,7 +112,7 @@ def main(event, line_bot_api, handler, incoming_msg):
             print('Role: ' + str(role))
             print('DATA: ' + str(data))
             print(data['player'][0]['displayname'])
-            print(data['player'][3]['userid']
+            print(data['player'][3]['userid'])
 
         
         elif len(userid) >= 7 and len(userid) <= 12: # If total players antara 7-12
