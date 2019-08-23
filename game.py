@@ -72,11 +72,11 @@ def main(event, line_bot_api, handler, incoming_msg):
                         line_bot_api.reply_message(event.reply_token, TextSendMessage('Sorry, you are already in the game'))
 
                 print('PLAYERS: ' + str(players_arr))       
-'''
-1 Werewolf
-1 Seer
-X Villager
-'''
+
+    ##################kek#######################################
+    ######################################################### STATE 1
+    #########################################################
+    
     if incoming_msg == '/startgame' and state == 0: # Kasih role ke masing" orang, randomize depends on the num of players
         
         if len(userid) >= 4 and len(userid) <= 6: # If total players antara 4-6
