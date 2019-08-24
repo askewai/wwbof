@@ -42,7 +42,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_text_message(event):
-    incoming_msg = event.message.text           
+    incoming_msg = (event.message.text).lower()           
 
     print('Income message: ' + incoming_msg)
     if incoming_msg == 'bales dong':

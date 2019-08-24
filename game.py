@@ -81,6 +81,7 @@ def main(event, line_bot_api, handler, incoming_msg):
         if isinstance(event.source, SourceGroup):
             if len(userid) >= 4 and len(userid) <= 6: # If total players antara 4-6
                 state = 1
+                groupid = line_bot_api.get_group_member_ids(group_id) # Get group ID
                 print('Game has started | 4-6 players')
                 line_bot_api.reply_message(event.reply_token, TextSendMessage('The game has started!! \nAuuuuuuuwwww!! Who is the werewolf here? Let\'s find out!'))
             
@@ -110,7 +111,7 @@ def main(event, line_bot_api, handler, incoming_msg):
                     elif data['player'][x]['role'] == 'Seer':
                         role_desc = 'You can go STALKER TRIGGER at night to see a player\'s role'
                     elif data['player'][x]['role'] == 'Villager':
-                        role_desc = 'You are just DEADWEIGHT'
+                        role_desc = 'You are useless'
                     else:
                         print('hmmm, ada error tuh..')
 
@@ -124,10 +125,10 @@ def main(event, line_bot_api, handler, incoming_msg):
                 # print(data['player'][3]['userid'])                
 
                 #################################################################### Day & Night cycle begin
-
+          
                 time.sleep(5)
-                line_bot_api.reply_message(event.reply_token, TextSendMessage('Pagi petang telah tiba, para villagers bangun untuk menghirup udara segar. Hmm, namun apakah betul mereka benar-benar safe?'))
-                
+                line_bot_api.push_message(groupid, TextSendMessage('Pagi petang telah tiba, para villagers bangun untuk menghirup udara segar. Hmm, namun apakah betul mereka benar-benar safe?'))
+
 
             elif len(userid) >= 7 and len(userid) <= 12: # If total players antara 7-12
                 state = 1
