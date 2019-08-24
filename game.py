@@ -81,7 +81,7 @@ def main(event, line_bot_api, handler, incoming_msg):
         if isinstance(event.source, SourceGroup):
             if len(userid) >= 2 and len(userid) <= 6: # If total players antara 4-6
                 state = 1
-                groupid = line_bot_api.get_group_member_ids(group_id) # Get group ID
+                groupid = line_bot_api.get_group_member_ids(event.source.group_id) # Get group ID
                 print('Game has started | 4-6 players')
                 line_bot_api.reply_message(event.reply_token, TextSendMessage('The game has started!! \nAuuuuuuuwwww!! Who is the werewolf here? Let\'s find out!'))
             
