@@ -79,7 +79,7 @@ def main(event, line_bot_api, handler, incoming_msg):
     
     if incoming_msg == '/startgame' and state == 0: # Kasih role ke masing" orang, randomize depends on the num of players
         if isinstance(event.source, SourceGroup):
-            if len(userid) >= 4 and len(userid) <= 6: # If total players antara 4-6
+            if len(userid) >= 2 and len(userid) <= 6: # If total players antara 4-6
                 state = 1
                 groupid = line_bot_api.get_group_member_ids(group_id) # Get group ID
                 print('Game has started | 4-6 players')
