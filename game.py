@@ -127,7 +127,6 @@ def main(event, line_bot_api, handler, incoming_msg):
 
                 #################################################################### Day & Night cycle begin
 
-
                 while True:
                     # Night - Nocturnal phase
                     time.sleep(5)
@@ -157,6 +156,10 @@ def main(event, line_bot_api, handler, incoming_msg):
                     # player brkurang 1 pke try except
                     # stlh vote selesai, announce klo yg di vote mati and ksh time.sleep(10) untuk mreka liat (ekspresi kaget apakah itu bner ww ato villager)
                     # check if werewolf == 0 -> end game (manggil function game over)
+
+                    # For testing only
+                    if income_msg == 'stop':
+                        break
 
 
             elif len(userid) >= 7 and len(userid) <= 12: # If total players antara 7-12
