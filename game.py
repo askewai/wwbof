@@ -81,8 +81,7 @@ def main(event, line_bot_api, handler, incoming_msg):
         if isinstance(event.source, SourceGroup):
             if len(userid) >= 2 and len(userid) <= 6: # If total players antara 4-6
                 state = 1
-                groupid = event.source.group_id # Get group ID
-                print('Group ID: ' + groupid)
+                groupid = event.source.group_id
                 print('Game has started | 4-6 players')
                 line_bot_api.reply_message(event.reply_token, TextSendMessage('The game has started!! \nAuuuuuuuwwww!! Who is the werewolf here? Let\'s find out!'))
             
@@ -118,6 +117,7 @@ def main(event, line_bot_api, handler, incoming_msg):
 
                     line_bot_api.push_message(data['player'][x]['userid'], TextSendMessage('Your role is: ' + data['player'][x]['role'] + '\n' + role_desc))
 
+                print('Group ID: ' + groupid)
                 print('UserID: ' + str(userid))
                 print('Display name: ' + str(displayname))
                 print('Role: ' + str(role))
@@ -126,9 +126,37 @@ def main(event, line_bot_api, handler, incoming_msg):
                 # print(data['player'][3]['userid'])                
 
                 #################################################################### Day & Night cycle begin
-          
-                time.sleep(5)
-                line_bot_api.push_message(groupid, TextSendMessage('Pagi petang telah tiba, para villagers bangun untuk menghirup udara segar. Hmm, namun apakah betul mereka benar-benar safe?'))
+
+
+                while True:
+                    # Night - Nocturnal phase
+                    time.sleep(5)
+                    line_bot_api.push_message(groupid, TextSendMessage('🌙 Malam telah tiba, \nSebagian telah tertidur kelelahan, sebagian mulai bersiap melancarkan aksinya. \nPemain malam hari: kalian punya 120 detik untuk menjalankan aksimu (ง•̀-•́)ง !!'))
+                    
+                    # kasih opsi(pm) ke werewolf sapa yg mw dibunuh berserta opsi tidak mw membunuh & kasih opsi(pm) ke seer sapa yg mw di liat roleny dgn waktu 120 detik(max) untuk kedua role tersebut
+
+                    # Day - Announcement phase
+                    time.sleep(5)
+                    line_bot_api.push_message(groupid, TextSendMessage('🌤 Pagi telah tiba, oops ada yang mati neh.'))
+                    # time.sleep(10) # kasih waktu 10 detik untuk orang liat (ekspresi kaget karna 1 villager mati)
+
+                    # villager brkurang 1 pke try except
+                    # check if villager == 0 -> end game (manggil function game over)
+                    
+                    # Noon - Discussion phase
+                    time.sleep(5)
+                    line_bot_api.push_message(groupid, TextSendMessage('☀️ Siang Hari. \nMatahari tepat di atas kepala. Warga desa mempunyai 150 detik untuk menuduh / membela diri / ngambek dituduh.. \nPokoknya damai lho ya \n(╭￣3￣)╭'))
+                    
+                    # kasih waktu 150 detik(not max) buat discuss, menuduh / membela diri dkk
+
+                    # Afternoon - Vote phase
+                    time.sleep(5)
+                    line_bot_api.push_message(groupid, TextSendMessage('🌥 Senja telah tiba. \nSeluruh warga berkumpul di balai desa untuk memilih siapa yang akan dieksekusi, sebagian warga terlihat sibuk menyiapkan alat penyiksaan untuk malam ini. \nKalian mempunyai waktu selama 90 detik untuk memilih! \nSemua pemain yang masih hidup dapat kesempatan untuk memilih satu orang siapa yang akan dieksekusi.'))
+
+                    # kasih opsi sapa yg mw di vote untuk dieksekusi dgn waktu 90 detik(max)
+                    # player brkurang 1 pke try except
+                    # stlh vote selesai, announce klo yg di vote mati and ksh time.sleep(10) untuk mreka liat (ekspresi kaget apakah itu bner ww ato villager)
+                    # check if werewolf == 0 -> end game (manggil function game over)
 
 
             elif len(userid) >= 7 and len(userid) <= 12: # If total players antara 7-12
