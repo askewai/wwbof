@@ -39,8 +39,6 @@ state = 0
 
 def main(event, line_bot_api, handler, incoming_msg): 
     global state
-    # state = 0
-    print(state)
     if state == 0:
         if incoming_msg == '/join': # If user type '/join'
             if isinstance(event.source, SourceGroup): # If eventnya dari group
@@ -50,7 +48,7 @@ def main(event, line_bot_api, handler, incoming_msg):
                     userid.append(profile.user_id) 
                     displayname.append(profile.display_name)
                     print('Add user ID: ' + profile.user_id)
-                    line_bot_api.push_message(profile.user_id, TextSendMessage(msg_join))
+                    # line_bot_api.push_message(profile.user_id, TextSendMessage(msg_join))
                     
                     # Announce who are the players
                     players_arr.append(str(len(userid)) + '. ' + profile.display_name)
@@ -133,6 +131,7 @@ def main(event, line_bot_api, handler, incoming_msg):
 
                 #################################################################### Day & Night cycle begin
 
+                # day_cycle()
 
                 while True:
                     # Night - Nocturnal phase   
@@ -173,7 +172,7 @@ def main(event, line_bot_api, handler, incoming_msg):
                     # check if werewolf == 0 -> end game (manggil function game over)
 
                     # For testing only
-                    if incomie_msg == 'stop':
+                    if incoming_msg == 'stop':
                         break
 
 
