@@ -158,7 +158,7 @@ def main(event, line_bot_api, handler, incoming_msg):
                     # check if werewolf == 0 -> end game (manggil function game over)
 
                     # For testing only
-                    if incoming_msg == 'stop':
+                    if incomie_msg == 'stop':
                         break
 
 
