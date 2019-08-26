@@ -170,7 +170,7 @@ def main(event, line_bot_api, handler, incoming_msg):
                     # player brkurang 1 pke try except
                     # stlh vote selesai, announce klo yg di vote mati and ksh time.sleep(10) untuk mreka liat (ekspresi kaget apakah itu bner ww ato villager)
                     # check if werewolf == 0 -> end game (manggil function game over)
-
+                    print('Loop ' + lele)
                     # For testing only
                     if incoming_msg == 'stop':
                         break
