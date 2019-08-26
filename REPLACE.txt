@@ -1,0 +1,1 @@
+# print('You choose to peek ' + str(data[index_to_peek]['displayname'] + '\n' + 'He/she is a ' + data[index_to_peek]['role'] + ' 🐺' if data[index_to_peek]['role'] == 'Werewolf' else (' 💩🧔' if data[index_to_peek]['role'] == 'Villager' else ' 👁️'))) # print roleny dibuat bold # UNTUK 3 ROLES, FOR FURTHER VERSION, UPDATE THIS LINE

@@ -34,7 +34,7 @@ state = 0
 2. endgame
 '''
 
-##################################################################################
+#########kek#########################################################################
 
 def end_game():
 
@@ -43,6 +43,8 @@ def end_game():
 
 def main(event, line_bot_api, handler, incoming_msg): 
     global state
+    # state = 0
+    print(state)
     if state == 0:
         if incoming_msg == '/join': # If user type '/join'
             if isinstance(event.source, SourceGroup): # If eventnya dari group
@@ -93,7 +95,8 @@ def main(event, line_bot_api, handler, incoming_msg):
                 #################################################################### Giving the roles
 
                 # Define data
-                data = {'player': []}
+                # data = {'player': []}
+                data = []
 
                 # Randomize roles for 4-6 players
                 role = ['Werewolf', 'Seer']
@@ -109,33 +112,34 @@ def main(event, line_bot_api, handler, incoming_msg):
                         "role": role[x],
                         "status": True
                     }
-                    data['player'].append(each_data)
+                    # data.append(each_data)
+                    data.append(each_data)
 
                     # Define description for each role
-                    if data['player'][x]['role'] == 'Werewolf':
+                    if data[x]['role'] == 'Werewolf':
                         role_desc = 'You can go WOLF TRIGGER and attack a player at night'
-                    elif data['player'][x]['role'] == 'Seer':
-                        role_desc = 'You can go STALKER TRIGGER at night to see a player\'s role'
-                    elif data['player'][x]['role'] == 'Villager':
-                        role_desc = 'You are useless'
+                    elif data[x]['role'] == 'Seer':
+                        role_desc = 'You can go STALKING at night to see a player\'s role'
+                    elif data[x]['role'] == 'Villager':
+                        role_desc = 'You are just deadweight'
                     else:
                         print('hmmm, ada error tuh..')
 
-                    line_bot_api.push_message(data['player'][x]['userid'], TextSendMessage('Your role is: ' + data['player'][x]['role'] + '\n' + role_desc))
+                    line_bot_api.push_message(data[x]['userid'], TextSendMessage('Your role is: ' + data[x]['role'] + '\n' + role_desc))
 
                 print('Group ID: ' + groupid)
                 print('UserID: ' + str(userid))
                 print('Display name: ' + str(displayname))
                 print('Role: ' + str(role))
                 print('DATA: ' + str(data))
-                # print(data['player'][0]['displayname'])
-                # print(data['player'][3]['userid'])                
+                # print(data[0]['displayname'])
+                # print(data[3]['userid'])                
 
                 #################################################################### Day & Night cycle begin
 
-                
+
                 while True:
-                    # Night - Nocturnal phase
+                    # Night - Nocturnal phase   
                     time.sleep(5)
                     line_bot_api.push_message(groupid, TextSendMessage('🌙 It is now midnight, \nSome villagers have fallen asleep, and the air is thick with animosity. \nThe nocturnal players now have 120 seconds to choose a target (ง•̀-•́)ง !!'))
                     
@@ -146,7 +150,7 @@ def main(event, line_bot_api, handler, incoming_msg):
 
                     # Day - Announcement phase
                     time.sleep(5)
-                    line_bot_api.push_message(groupid, TextSendMessage('🌤 The Sun has risen, a soul has been lost.'))
+                    line_bot_api.push_message(groupid, TextSendMessage('🌤 The Sun has risen, an unfortunate soul has departed.'))
                     time.sleep(10) # waktu reaksi 
                     # time.sleep(10) # kasih waktu 10 detik untuk orang liat (ekspresi kaget karna 1 villager mati)
 
@@ -165,7 +169,7 @@ def main(event, line_bot_api, handler, incoming_msg):
 
                     # Afternoon - Vote phase
                     time.sleep(5)
-                    line_bot_api.push_message(groupid, TextSendMessage('🌥 It is almost daybreak. \nAll villagers are gathered to vote traitor who deserves the noose, everyone seems to be on edge. \nEveryone has 90 seconds to point at the traitor! \nSemua pemain yang masih hidup dapat kesempatan untuk memilih satu orang siapa yang akan dieksekusi.'))
+                    line_bot_api.push_message(groupid, TextSendMessage('🌥 It is almost daybreak. \nAll villagers are gathered to vote traitor who deserves the noose, everyone seems to be on edge. \nAll surviving players has 90 seconds to point at the traitor!'))
 
                     # kasih opsi sapa yg mw di vote untuk dieksekusi dgn waktu 90 detik(max)
                     # player brkurang 1 pke try except
@@ -173,7 +177,7 @@ def main(event, line_bot_api, handler, incoming_msg):
                     # check if werewolf == 0 -> end game (manggil function game over)
 
                     # For testing only
-                    if income_msg == 'stop':
+                    if incomie_msg == 'stop':
                         break
 
 
