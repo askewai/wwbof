@@ -1,2 +1,4 @@
 Todo:
-1. 
+1. Cara kurangin 1 player di variable data
+2. Cara ngecheck klo villager dh mati smua and werewolf dh mati smua
+3. Cara kasih opsi yang bgus

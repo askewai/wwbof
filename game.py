@@ -36,6 +36,11 @@ state = 0
 
 ##################################################################################
 
+def end_game():
+
+    if 
+
+
 def main(event, line_bot_api, handler, incoming_msg): 
     global state
     if state == 0:
@@ -102,6 +107,7 @@ def main(event, line_bot_api, handler, incoming_msg):
                         "userid": userid[x],
                         "displayname": displayname[x],
                         "role": role[x],
+                        "status": True
                     }
                     data['player'].append(each_data)
 
@@ -127,30 +133,39 @@ def main(event, line_bot_api, handler, incoming_msg):
 
                 #################################################################### Day & Night cycle begin
 
+                
                 while True:
                     # Night - Nocturnal phase
                     time.sleep(5)
-                    line_bot_api.push_message(groupid, TextSendMessage('🌙 Malam telah tiba, \nSebagian telah tertidur kelelahan, sebagian mulai bersiap melancarkan aksinya. \nPemain malam hari: kalian punya 120 detik untuk menjalankan aksimu (ง•̀-•́)ง !!'))
+                    line_bot_api.push_message(groupid, TextSendMessage('🌙 It is now midnight, \nSome villagers have fallen asleep, and the air is thick with animosity. \nThe nocturnal players now have 120 seconds to choose a target (ง•̀-•́)ง !!'))
                     
                     # kasih opsi(pm) ke werewolf sapa yg mw dibunuh berserta opsi tidak mw membunuh & kasih opsi(pm) ke seer sapa yg mw di liat roleny dgn waktu 120 detik(max) untuk kedua role tersebut
+                    # pas pm ke seer -> stlh seer pilih sapa yg mw diliat -> time.sleep(2) (kyk loading gt) -> trs ksih liat role yg dipilih itu
+                     
+                    ###############################################################
 
                     # Day - Announcement phase
                     time.sleep(5)
-                    line_bot_api.push_message(groupid, TextSendMessage('🌤 Pagi telah tiba, oops ada yang mati neh.'))
+                    line_bot_api.push_message(groupid, TextSendMessage('🌤 The Sun has risen, a soul has been lost.'))
+                    time.sleep(10) # waktu reaksi 
                     # time.sleep(10) # kasih waktu 10 detik untuk orang liat (ekspresi kaget karna 1 villager mati)
 
                     # villager brkurang 1 pke try except
                     # check if villager == 0 -> end game (manggil function game over)
                     
+                    ###############################################################
+
                     # Noon - Discussion phase
                     time.sleep(5)
-                    line_bot_api.push_message(groupid, TextSendMessage('☀️ Siang Hari. \nMatahari tepat di atas kepala. Warga desa mempunyai 150 detik untuk menuduh / membela diri / ngambek dituduh.. \nPokoknya damai lho ya \n(╭￣3￣)╭'))
-                    
+                    line_bot_api.push_message(groupid, TextSendMessage('☀️ It is high noon. \nVillage trial is now in session to catch the traitor \neveryone has 150 seconds to present their argument \nKeep it chill alright? \n(╭￣3￣)╭'))
+                
                     # kasih waktu 150 detik(not max) buat discuss, menuduh / membela diri dkk
+
+                    ###############################################################
 
                     # Afternoon - Vote phase
                     time.sleep(5)
-                    line_bot_api.push_message(groupid, TextSendMessage('🌥 Senja telah tiba. \nSeluruh warga berkumpul di balai desa untuk memilih siapa yang akan dieksekusi, sebagian warga terlihat sibuk menyiapkan alat penyiksaan untuk malam ini. \nKalian mempunyai waktu selama 90 detik untuk memilih! \nSemua pemain yang masih hidup dapat kesempatan untuk memilih satu orang siapa yang akan dieksekusi.'))
+                    line_bot_api.push_message(groupid, TextSendMessage('🌥 It is almost daybreak. \nAll villagers are gathered to vote traitor who deserves the noose, everyone seems to be on edge. \nEveryone has 90 seconds to point at the traitor! \nSemua pemain yang masih hidup dapat kesempatan untuk memilih satu orang siapa yang akan dieksekusi.'))
 
                     # kasih opsi sapa yg mw di vote untuk dieksekusi dgn waktu 90 detik(max)
                     # player brkurang 1 pke try except
