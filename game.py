@@ -133,7 +133,7 @@ def main(event, line_bot_api, handler, incoming_msg):
 
                 # day_cycle()
 
-                while True:
+                for lele in range(5):
                     # Night - Nocturnal phase   
                     time.sleep(5)
                     line_bot_api.push_message(groupid, TextSendMessage('🌙 It is now midnight, \nSome villagers have fallen asleep, and the air is thick with animosity. \nThe nocturnal players now have 120 seconds to choose a target (ง•̀-•́)ง !!'))
