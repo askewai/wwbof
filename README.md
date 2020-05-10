@@ -1,2 +1,2 @@
-# babelacbot
-A party game called Werewolf
+# werewolf-line-bot
+A LINE bot - a party game called Werewolf
