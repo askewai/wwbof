@@ -11,7 +11,7 @@ Screenshots of the gameplay
 <img src="Screenshot Werewolf Bot/role_werewolf.jpg">
 
 - Getting the role Seer/Villager role (PM by Werewolf bot)
-<img src="Screenshot Werewolf Bot/role_werewolf2.png">
+<img src="Screenshot Werewolf Bot/role_werewolf2.PNG">
 
 - Main Game
-<img src="Screenshot Werewolf Bot/start_game.png">
+<img src="Screenshot Werewolf Bot/start_game.PNG">
