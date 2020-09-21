@@ -8,7 +8,7 @@ Screenshots of the gameplay
 <img src="Screenshot Werewolf Bot/join_game.PNG">
 
 - Getting the Werewolf role (PM by Werewolf bot)
-<img src="Screenshot Werewolf Bot/role_werewolf.jpg">
+<img src="Screenshot Werewolf Bot/">
 
 - Getting the role Seer/Villager role (PM by Werewolf bot)
 <img src="Screenshot Werewolf Bot/role_werewolf2.PNG">
