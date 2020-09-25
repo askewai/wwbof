@@ -1,6 +1,9 @@
 # werewolf-line-bot
-A LINE bot - a party game called Werewolf
+A LINE bot - a party game called Werewolf built with LINE API and deployed with Heroku.
 
+Main files:
+- app.py
+- game.py
 
 Screenshots of the gameplay
 
