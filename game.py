@@ -50,9 +50,10 @@ def main(event, line_bot_api, handler, incoming_msg):
             line_bot_api.reply_message(event.reply_token, TextSendMessage('The game has started!! \nAuuuuuuuwwww!! Who is the werewolf here? Let\'s find out!'))
 
             # Randomize roles for 4-6 players
-            role = ['Werewolf', 'Seer']
-            for y in range(len(userid)-2):
+            role = ['Werewolf', 'Seer', 'Traitor', 'Orphan'] if len(userid) <= 6 else ['Werewolf', 'Seer', 'Werewolf']
+            for _ in range(len(userid) - len(role)):
                 role.append('Villager')
+
             random.shuffle(role)
 
             # Assign roles to players
@@ -71,8 +72,13 @@ def main(event, line_bot_api, handler, incoming_msg):
                     role_desc = 'You can go WOLF TRIGGER and attack a player at night'
                 elif data[x]['role'] == 'Seer':
                     role_desc = 'You can go STALKING at night to see a player\'s role'
+                elif data[x]['role'] == 'Traitor':
+                    role_desc = 'You can become a werewolf if the werewolf dies'
+                elif data[x]['role'] == 'Orphan':
+                    role_desc = 'You can make a player sleep with you'
                 elif data[x]['role'] == 'Villager':
                     role_desc = 'You are just deadweight'
+                
                 line_bot_api.push_message(data[x]['userid'], TextSendMessage(f'Your role is: {data[x]["role"]}\n{role_desc}'))
 
             # Start the Day and Night cycle
@@ -81,3 +87,18 @@ def main(event, line_bot_api, handler, incoming_msg):
         else:
             line_bot_api.reply_message(event.reply_token, TextSendMessage("Not enough players to start the game. Minimum 4 players required."))
 
+def night_phase(groupid, data):
+    # Handle the night phase: where players can interact based on their roles
+    line_bot_api.push_message(groupid, TextSendMessage('It is now night. Players can take their actions.'))
+    time.sleep(5)
+    for player in data:
+        if player['role'] == 'Seer':
+            line_bot_api.push_message(player['userid'], TextSendMessage('Please select a player to check their role.'))
+        elif player['role'] == 'Werewolf':
+            line_bot_api.push_message(player['userid'], TextSendMessage('Please select a player to kill.'))
+        elif player['role'] == 'Doctor':
+            line_bot_api.push_message(player['userid'], TextSendMessage('Please select a player to protect.'))
+        elif player['role'] == 'Orphan':
+            line_bot_api.push_message(player['userid'], TextSendMessage('Please select a player to sleep with you.'))
+
+    # Implement logic for each action after night phase and voting on the day phase
