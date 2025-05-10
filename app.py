@@ -60,11 +60,18 @@ def handle_text_message(event):
                 text="Here are the available commands:\n"
                      "/join - To join the game\n"
                      "/startgame - To start the game\n"
+                     "/quit - To quit the game\n"
+                     "bales dong - To make the bot reply 'knp ey?'\n"
                      "stop - To stop the game (for testing)"
             )
         )
     elif incoming_msg == 'bales dong':
         line_bot_api.reply_message(event.reply_token, TextSendMessage('knp ey?'))
+    
+    # Handling the 'quit' command to stop the game
+    elif incoming_msg == '/quit':
+        game.quit_game(event, line_bot_api, handler)
+        line_bot_api.reply_message(event.reply_token, TextSendMessage('The game has been quit.'))
 
     # Call main game function
     game.main(event, line_bot_api, handler, incoming_msg)

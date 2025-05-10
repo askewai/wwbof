@@ -20,19 +20,16 @@ import time
 import re
 import random
 
-# DEFINE GLOBAL VARIABLES
-msg_join = 'Congratulations!! You are joining the Werewolf Game'
-str_curr = 'Current players: \n'
-players_arr = []
-displayname = []
-userid = []
-state = 0
+# Global state for tracking the game
+state = 0  # Game state (0 = joined, 1 = started, 2 = ended)
 
-'''
-0. Join state
-1. startgame state
-2. endgame
-'''
+def quit_game(event, line_bot_api, handler):
+    global state
+    if state != 0:  # If the game has started or is in progress, we stop it
+        state = 0
+        line_bot_api.push_message(event.source.group_id, TextSendMessage(text="The game has been quit and will be reset."))
+    else:
+        line_bot_api.push_message(event.source.group_id, TextSendMessage(text="No game is currently running."))
 
 def main(event, line_bot_api, handler, incoming_msg): 
     global state
@@ -98,26 +95,4 @@ def main(event, line_bot_api, handler, incoming_msg):
                 # Start the Day and Night cycle
                 night_phase(groupid, data)
 
-            elif len(userid) < 4:
-                line_bot_api.reply_message(event.reply_token, TextSendMessage('Sorry, you need at least 4 players to start the game.'))
-            elif len(userid) > 6:
-                line_bot_api.reply_message(event.reply_token, TextSendMessage('Sorry, the game supports up to 6 players.'))
-
-    print('STATE: ' + str(state))
-
-def night_phase(groupid, data):
-    # Night phase: Werewolf picks a target to kill
-    time.sleep(5)
-    line_bot_api.push_message(groupid, TextSendMessage('🌙 It is now midnight. Some villagers have fallen asleep...'))
-    
-    # Example for Werewolf to pick a target
-    target = 'Player2'  # Example, in reality this would be dynamic
-    line_bot_api.push_message(groupid, TextSendMessage(f'Werewolf has chosen {target} as the target to kill.'))
-
-    # Day phase: Announce the death
-    time.sleep(5)
-    line_bot_api.push_message(groupid, TextSendMessage(f'🌤 The Sun has risen, an unfortunate soul has departed. {target} was killed.'))
-
-    # Continue with further game phases...
-    # Implement voting, etc.
-
+            elif len(userid) <
