@@ -28,7 +28,7 @@ handler = WebhookHandler(config("LINE_CHANNEL_SECRET", default=os.environ.get('L
 def callback():
     signature = request.headers.get('X-Line-Signature')
 
-    # get request body as text                                
+    # get request body as text                                  
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
 
@@ -48,7 +48,20 @@ def handle_text_message(event):
     incoming_msg = (event.message.text).lower()           
 
     print('Income message: ' + incoming_msg)
-    if incoming_msg == 'bales dong':
+    
+    # Handling the 'menu' command
+    if incoming_msg == 'menu':
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(
+                text="Here are the available commands:\n"
+                     "/join - To join the game\n"
+                     "/startgame - To start the game\n"
+                     "bales dong - To make the bot reply 'knp ey?'\n"
+                     "stop - To stop the game (for testing)"
+            )
+        )
+    elif incoming_msg == 'bales dong':
         line_bot_api.reply_message(event.reply_token, TextSendMessage('knp ey?'))
 
     # Call main game function         
