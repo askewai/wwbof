@@ -1,26 +1,13 @@
-import os
-from decouple import config
-from flask import (Flask, request, abort)
-from linebot import (LineBotApi, WebhookHandler)
-from linebot.exceptions import InvalidSignatureError
-import json
-from linebot.models import (
-    MessageEvent, 
-    TextMessage, 
-    TextSendMessage,
-    SourceUser,
-    SourceGroup,
-    SourceRoom,
-    MessageAction,
-    LeaveEvent,
-    JoinEvent
-)
-import requests
-import time
-import re
 import random
+import time
+from linebot.models import TextSendMessage, SourceGroup  # Import these to fix the errors
 
-# Global state for tracking the game
+# Global variables for tracking players and state
+msg_join = 'Congratulations!! You are joining the Werewolf Game'
+str_curr = 'Current players: \n'
+players_arr = []
+displayname = []
+userid = []
 state = 0  # Game state (0 = joined, 1 = started, 2 = ended)
 
 def quit_game(event, line_bot_api, handler):
@@ -33,7 +20,7 @@ def quit_game(event, line_bot_api, handler):
 
 def main(event, line_bot_api, handler, incoming_msg): 
     global state
-    if state == 0:
+    if state == 0:  # Waiting for players to join
         if incoming_msg == '/join':  # If user types '/join'
             if isinstance(event.source, SourceGroup):  # If event is from a group
                 profile = line_bot_api.get_profile(event.source.user_id)
@@ -55,44 +42,42 @@ def main(event, line_bot_api, handler, incoming_msg):
                     else:  # If player is already in the game
                         line_bot_api.reply_message(event.reply_token, TextSendMessage('Sorry, you are already in the game'))
 
-    #########################################################
-    ######################################################### STATE 1 (Start Game)
-    #########################################################
-
+    # Start the game when /startgame is called and at least 4 players are joined
     if incoming_msg == '/startgame' and state == 0:
-        if isinstance(event.source, SourceGroup):
-            if len(userid) >= 4 and len(userid) <= 6:
-                state = 1
-                groupid = event.source.group_id
-                line_bot_api.reply_message(event.reply_token, TextSendMessage('The game has started!! \nAuuuuuuuwwww!! Who is the werewolf here? Let\'s find out!'))
+        if len(userid) >= 4:
+            state = 1
+            groupid = event.source.group_id
+            line_bot_api.reply_message(event.reply_token, TextSendMessage('The game has started!! \nAuuuuuuuwwww!! Who is the werewolf here? Let\'s find out!'))
 
-                # Randomize roles for 4-6 players
-                role = ['Werewolf', 'Seer']
-                for y in range(len(userid)-2):
-                    role.append('Villager')
-                random.shuffle(role)
+            # Randomize roles for 4-6 players
+            role = ['Werewolf', 'Seer']
+            for y in range(len(userid)-2):
+                role.append('Villager')
+            random.shuffle(role)
 
-                # Assign roles to players
-                data = []
-                for x in range(len(userid)):
-                    each_data = {
-                        "userid": userid[x],
-                        "displayname": displayname[x],
-                        "role": role[x],
-                        "status": True
-                    }
-                    data.append(each_data)
+            # Assign roles to players
+            data = []
+            for x in range(len(userid)):
+                each_data = {
+                    "userid": userid[x],
+                    "displayname": displayname[x],
+                    "role": role[x],
+                    "status": True
+                }
+                data.append(each_data)
 
-                    # Send the role description to each player
-                    if data[x]['role'] == 'Werewolf':
-                        role_desc = 'You can go WOLF TRIGGER and attack a player at night'
-                    elif data[x]['role'] == 'Seer':
-                        role_desc = 'You can go STALKING at night to see a player\'s role'
-                    elif data[x]['role'] == 'Villager':
-                        role_desc = 'You are just deadweight'
-                    line_bot_api.push_message(data[x]['userid'], TextSendMessage(f'Your role is: {data[x]["role"]}\n{role_desc}'))
+                # Send the role description to each player
+                if data[x]['role'] == 'Werewolf':
+                    role_desc = 'You can go WOLF TRIGGER and attack a player at night'
+                elif data[x]['role'] == 'Seer':
+                    role_desc = 'You can go STALKING at night to see a player\'s role'
+                elif data[x]['role'] == 'Villager':
+                    role_desc = 'You are just deadweight'
+                line_bot_api.push_message(data[x]['userid'], TextSendMessage(f'Your role is: {data[x]["role"]}\n{role_desc}'))
 
-                # Start the Day and Night cycle
-                night_phase(groupid, data)
+            # Start the Day and Night cycle
+            night_phase(groupid, data)
 
-            elif len(userid) <
+        else:
+            line_bot_api.reply_message(event.reply_token, TextSendMessage("Not enough players to start the game. Minimum 4 players required."))
+
