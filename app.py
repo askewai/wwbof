@@ -60,7 +60,6 @@ def handle_text_message(event):
                 text="Here are the available commands:\n"
                      "/join - To join the game\n"
                      "/startgame - To start the game\n"
-                     "bales dong - To make the bot reply 'knp ey?'\n"
                      "stop - To stop the game (for testing)"
             )
         )
