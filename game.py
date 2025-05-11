@@ -1,6 +1,8 @@
 import random
 import time
-from linebot.models import TextSendMessage, SourceGroup  # Import these to fix the errors
+import mysql.connector
+from mysql.connector import Error
+from linebot.models import TextSendMessage, SourceGroup
 
 # Global variables for tracking players and state
 msg_join = 'Congratulations!! You are joining the Werewolf Game'
@@ -9,6 +11,23 @@ players_arr = []
 displayname = []
 userid = []
 state = 0  # Game state (0 = joined, 1 = started, 2 = ended)
+
+# Database connection setup
+def create_connection():
+    """ Create a connection to the MySQL database """
+    try:
+        connection = mysql.connector.connect(
+            host='localhost',
+            database='werewolf_game',
+            user='root',  # replace with your MySQL username
+            password='password'  # replace with your MySQL password
+        )
+        if connection.is_connected():
+            print("Connection to MySQL database is successful")
+            return connection
+    except Error as e:
+        print("Error while connecting to MySQL", e)
+        return None
 
 def quit_game(event, line_bot_api, handler):
     global state
@@ -25,80 +44,83 @@ def main(event, line_bot_api, handler, incoming_msg):
             if isinstance(event.source, SourceGroup):  # If event is from a group
                 profile = line_bot_api.get_profile(event.source.user_id)
 
-                if len(userid) == 0:  # If players list is empty
-                    userid.append(profile.user_id) 
-                    displayname.append(profile.display_name)
-                    players_arr.append(f'{len(userid)}. {profile.display_name}')
-                    players = '\n'.join(players_arr)
-                    line_bot_api.reply_message(event.reply_token, TextSendMessage(str_curr + players))
+                # Insert player into the database
+                connection = create_connection()
+                if connection:
+                    cursor = connection.cursor()
+                    cursor.execute('''
+                        INSERT INTO players (userid, displayname, role, status)
+                        VALUES (%s, %s, %s, %s)
+                    ''', (profile.user_id, profile.display_name, 'Villager', True))
+                    connection.commit()
+                    cursor.close()
+                    connection.close()
 
-                elif len(userid) > 0:  # If players exist
-                    if profile.user_id not in userid:  # If this is a new player
-                        userid.append(profile.user_id) 
-                        displayname.append(profile.display_name)
-                        players_arr.append(f'{len(userid)}. {profile.display_name}')
-                        players = '\n'.join(players_arr)
-                        line_bot_api.reply_message(event.reply_token, TextSendMessage(str_curr + players))
-                    else:  # If player is already in the game
-                        line_bot_api.reply_message(event.reply_token, TextSendMessage('Sorry, you are already in the game'))
+                # Send confirmation message
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(f"{profile.display_name} has joined the game"))
 
     # Start the game when /startgame is called and at least 4 players are joined
     if incoming_msg == '/startgame' and state == 0:
-        if len(userid) >= 4:
+        # Retrieve all players from the database
+        connection = create_connection()
+        if connection:
+            cursor = connection.cursor()
+            cursor.execute('SELECT * FROM players WHERE status = TRUE')
+            players = cursor.fetchall()
+            connection.close()
+
+        if len(players) >= 4:
             state = 1
             groupid = event.source.group_id
             line_bot_api.reply_message(event.reply_token, TextSendMessage('The game has started!! \nAuuuuuuuwwww!! Who is the werewolf here? Let\'s find out!'))
 
             # Randomize roles for 4-6 players
-            role = ['Werewolf', 'Seer', 'Traitor', 'Orphan'] if len(userid) <= 6 else ['Werewolf', 'Seer', 'Werewolf']
-            for _ in range(len(userid) - len(role)):
+            role = ['Werewolf', 'Seer', 'Traitor', 'Orphan'] if len(players) <= 6 else ['Werewolf', 'Seer', 'Werewolf']
+            for _ in range(len(players) - len(role)):
                 role.append('Villager')
 
             random.shuffle(role)
 
-            # Assign roles to players
-            data = []
-            for x in range(len(userid)):
-                each_data = {
-                    "userid": userid[x],
-                    "displayname": displayname[x],
-                    "role": role[x],
-                    "status": True
-                }
-                data.append(each_data)
+            # Assign roles to players and update in the database
+            for x in range(len(players)):
+                user_id = players[x][1]  # Get user_id from the database row
+                player_role = role[x]
+                
+                # Update player's role in the database
+                connection = create_connection()
+                if connection:
+                    cursor = connection.cursor()
+                    cursor.execute('''
+                        UPDATE players
+                        SET role = %s
+                        WHERE userid = %s
+                    ''', (player_role, user_id))
+                    connection.commit()
+                    cursor.close()
+                    connection.close()
 
                 # Send the role description to each player
-                if data[x]['role'] == 'Werewolf':
+                role_desc = 'You are just deadweight'
+                if player_role == 'Werewolf':
                     role_desc = 'You can go WOLF TRIGGER and attack a player at night'
-                elif data[x]['role'] == 'Seer':
+                elif player_role == 'Seer':
                     role_desc = 'You can go STALKING at night to see a player\'s role'
-                elif data[x]['role'] == 'Traitor':
+                elif player_role == 'Traitor':
                     role_desc = 'You can become a werewolf if the werewolf dies'
-                elif data[x]['role'] == 'Orphan':
+                elif player_role == 'Orphan':
                     role_desc = 'You can make a player sleep with you'
-                elif data[x]['role'] == 'Villager':
-                    role_desc = 'You are just deadweight'
                 
-                line_bot_api.push_message(data[x]['userid'], TextSendMessage(f'Your role is: {data[x]["role"]}\n{role_desc}'))
+                line_bot_api.push_message(user_id, TextSendMessage(f'Your role is: {player_role}\n{role_desc}'))
 
             # Start the Day and Night cycle
-            night_phase(groupid, data)
+            night_phase(groupid)
 
         else:
             line_bot_api.reply_message(event.reply_token, TextSendMessage("Not enough players to start the game. Minimum 4 players required."))
 
-def night_phase(groupid, data):
+def night_phase(groupid):
     # Handle the night phase: where players can interact based on their roles
     line_bot_api.push_message(groupid, TextSendMessage('It is now night. Players can take their actions.'))
     time.sleep(5)
-    for player in data:
-        if player['role'] == 'Seer':
-            line_bot_api.push_message(player['userid'], TextSendMessage('Please select a player to check their role.'))
-        elif player['role'] == 'Werewolf':
-            line_bot_api.push_message(player['userid'], TextSendMessage('Please select a player to kill.'))
-        elif player['role'] == 'Doctor':
-            line_bot_api.push_message(player['userid'], TextSendMessage('Please select a player to protect.'))
-        elif player['role'] == 'Orphan':
-            line_bot_api.push_message(player['userid'], TextSendMessage('Please select a player to sleep with you.'))
+    # Logic for interactions (Seer, Werewolf, Doctor, Orphan, etc.) goes here
 
-    # Implement logic for each action after night phase and voting on the day phase
